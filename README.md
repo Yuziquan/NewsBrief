@@ -6,7 +6,7 @@
 
 An app that helps you quickly browse news and information~~
 
-![app_icon](https://github.com/Yuziquan/NewsBrief/blob/master/Screenshots/app_icon.png)
+<img src="https://github.com/Yuziquan/NewsBrief/blob/master/Screenshots/app_icon.png" width=150 height=150/>
 
 
 
