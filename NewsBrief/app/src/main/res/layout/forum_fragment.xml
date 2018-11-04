@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@drawable/forum_head_bg_gradient"/>
+
+    <TextView
+            android:id="@+id/tv_forum"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/forum_head_bg_gradient"
+            android:textSize="35dp"
+            android:textStyle="bold"
+            android:text="畅聊天下事"/>
+
+    <WebView
+            android:id="@+id/wv_forum"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30">
+
+    </WebView>
+
+</LinearLayout>
