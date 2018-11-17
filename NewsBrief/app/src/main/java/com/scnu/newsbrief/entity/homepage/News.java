@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.entity;
+package com.scnu.newsbrief.entity.homepage;
 
 /**
  * Created by lw on 2017/4/14.
@@ -7,7 +7,6 @@ package com.scnu.newsbrief.entity;
 
 public class News
 {
-
     private String sourcename;
     private int imageId;
     private String content;

@@ -1,7 +1,6 @@
 package com.scnu.newsbrief.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.scnu.newsbrief.R;
-import com.scnu.newsbrief.entity.News;
-import com.scnu.newsbrief.main_interface.MainInterfaceActivity;
+import com.scnu.newsbrief.entity.homepage.News;
 import com.scnu.newsbrief.main_interface.homepage.activity.FullContentActivity;
 import com.scnu.newsbrief.main_interface.homepage.activity.NewsBriefActivity;
 

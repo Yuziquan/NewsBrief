@@ -16,8 +16,8 @@ import android.widget.Toast;
 import com.scnu.newsbrief.R;
 import com.scnu.newsbrief.adapter.NewsAdapter;
 import com.scnu.newsbrief.base.BaseFragment;
-import com.scnu.newsbrief.entity.Channel;
-import com.scnu.newsbrief.entity.News;
+import com.scnu.newsbrief.entity.homepage.Channel;
+import com.scnu.newsbrief.entity.homepage.News;
 import com.scnu.newsbrief.main_interface.homepage.activity.SearchPageActivity;
 import com.scnu.newsbrief.main_interface.homepage.view.*;
 
