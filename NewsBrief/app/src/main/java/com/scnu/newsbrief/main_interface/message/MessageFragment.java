@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.scnu.newsbrief.R;
 import com.scnu.newsbrief.base.BaseFragment;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,11 +37,11 @@ public class MessageFragment extends BaseFragment
     private Unbinder mUnbinder;
 
     @BindView(R.id.lv_message)
-    protected ListView mMessageListView;
+    protected ListView mLvMessageList;
 
 
     @BindView(R.id.tv_message)
-    protected TextView mMessageTextView;
+    protected TextView mTvMessage;
 
     private Typeface mTypeface;
 
@@ -53,7 +52,6 @@ public class MessageFragment extends BaseFragment
         View rootView = inflater.inflate(R.layout.message_fragment, container, false);
 
         mUnbinder = ButterKnife.bind(this, rootView);
-
 
         try
         {
@@ -67,7 +65,7 @@ public class MessageFragment extends BaseFragment
 
         if (mTypeface != null)
         {
-            mMessageTextView.setTypeface(mTypeface);
+            mTvMessage.setTypeface(mTypeface);
         }
 
         initView();
@@ -103,7 +101,7 @@ public class MessageFragment extends BaseFragment
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), messageItemsList, R.layout.
                 message_item, new String[]{"image", "title", "text"}, new int[]{R.id.image, R.id.title, R.id.text});
 
-        mMessageListView.setAdapter(adapter);
+        mLvMessageList.setAdapter(adapter);
 
     }
 

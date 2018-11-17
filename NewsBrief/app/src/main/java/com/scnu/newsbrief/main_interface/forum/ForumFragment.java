@@ -30,10 +30,10 @@ public class ForumFragment extends BaseFragment
     private static final String TAG = "ForumFragment";
 
     @BindView(R.id.wv_forum)
-    protected WebView mForumWebView;
+    protected WebView mWvForum;
 
     @BindView(R.id.tv_forum)
-    protected TextView mForumTextView;
+    protected TextView mTvForum;
 
     private Unbinder mUnbinder;
 
@@ -58,7 +58,7 @@ public class ForumFragment extends BaseFragment
 
         if (mTypeface != null)
         {
-            mForumTextView.setTypeface(mTypeface);
+            mTvForum.setTypeface(mTypeface);
         }
 
         initWebView();
@@ -69,9 +69,9 @@ public class ForumFragment extends BaseFragment
 
     private void initWebView()
     {
-        mForumWebView.getSettings().setJavaScriptEnabled(true);
-        mForumWebView.setWebViewClient(new WebViewClient());
-        mForumWebView.loadUrl(Constants.FORUM_URL);
+        mWvForum.getSettings().setJavaScriptEnabled(true);
+        mWvForum.setWebViewClient(new WebViewClient());
+        mWvForum.loadUrl(Constants.FORUM_URL);
     }
 
 
@@ -92,12 +92,12 @@ public class ForumFragment extends BaseFragment
 
     public boolean canWebViewGoBack()
     {
-        return mForumWebView.canGoBack();
+        return mWvForum.canGoBack();
     }
 
     public void webViewGoBack()
     {
-        mForumWebView.goBack();
+        mWvForum.goBack();
     }
 
 }

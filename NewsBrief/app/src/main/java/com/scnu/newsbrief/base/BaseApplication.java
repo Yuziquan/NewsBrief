@@ -23,6 +23,7 @@ public class BaseApplication extends Application
         initSmartRefreshLayout();
     }
 
+
     /**
      * 初始化SmartRefreshLayout的Header和Footer
      */

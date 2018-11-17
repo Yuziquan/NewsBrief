@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
-import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.scnu.newsbrief.R;
@@ -18,7 +16,7 @@ public class NewsBriefActivity extends AppCompatActivity
 {
 
     @BindView(R.id.tv_news_brief)
-    protected TextView mNewsBriefTextView;
+    protected TextView mTvNewsBrief;
 
 
     @BindView(R.id.toolbar2)
@@ -45,7 +43,7 @@ public class NewsBriefActivity extends AppCompatActivity
 
 
         String brief = getIntent().getStringExtra("brief");
-        mNewsBriefTextView.setText(brief);
+        mTvNewsBrief.setText(brief);
     }
 
     @Override

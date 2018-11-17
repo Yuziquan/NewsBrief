@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -38,7 +37,7 @@ public class MainInterfaceActivity extends BaseActivity
     protected ViewPager mViewPager;
 
     @BindView(R.id.cbtn_add)
-    protected CircleButton mAddCircleButton;
+    protected CircleButton mCbtnAdd;
 
     private List<Fragment> mFragmentList;
 
@@ -148,8 +147,6 @@ public class MainInterfaceActivity extends BaseActivity
             default:
         }
     }
-
-
 
 
     /**

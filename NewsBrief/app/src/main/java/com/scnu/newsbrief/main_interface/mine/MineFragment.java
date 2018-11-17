@@ -34,10 +34,10 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 public class MineFragment extends BaseFragment
 {
     @BindView(R.id.iv_head_bg)
-    protected ImageView mHeadBgImageView;
+    protected ImageView mIvHeadBg;
 
     @BindView(R.id.lv_personal_information)
-    protected ListView mPersonalInformationListView;
+    protected ListView mLvPersonalInformation;
 
     private Unbinder mUnbinder;
 
@@ -75,7 +75,7 @@ public class MineFragment extends BaseFragment
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), messageItemsList, R.layout.
                 personal_information_item, new String[]{"image", "title"}, new int[]{R.id.image, R.id.title});
 
-        mPersonalInformationListView.setAdapter(adapter);
+        mLvPersonalInformation.setAdapter(adapter);
 
     }
 
@@ -89,8 +89,9 @@ public class MineFragment extends BaseFragment
 
         Glide.with(getActivity().getApplicationContext()).load(R.drawable.head)
                 .apply(bitmapTransform(new BlurTransformation(25, 3)))
-                .into(mHeadBgImageView);
+                .into(mIvHeadBg);
     }
+
 
     @Override
     public void onDestroyView()

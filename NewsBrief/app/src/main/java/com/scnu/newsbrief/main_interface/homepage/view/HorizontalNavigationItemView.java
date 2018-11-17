@@ -22,8 +22,8 @@ public class HorizontalNavigationItemView extends LinearLayout implements Checka
     protected int mSplitColor = Color.BLUE;
 
     private View mItemView;
-    private View mChannelSplit;
-    private TextView mChannelTitle;
+    private View mChannelSplitView;
+    private TextView mTvChannelTitle;
 
     /**
      * 是否有下划线
@@ -50,8 +50,8 @@ public class HorizontalNavigationItemView extends LinearLayout implements Checka
     {
         //attachToRoot(默认true)决定了，root是否 是resource的父对象
         this.mItemView = LayoutInflater.from(getContext()).inflate(R.layout.homepage_horizontal_bar_layout, this);
-        mChannelTitle = (TextView) this.mItemView.findViewById(R.id.horizontal_bar_channel_title);
-        mChannelSplit = this.mItemView.findViewById(R.id.horizontal_bar_channel_split);
+        mTvChannelTitle = (TextView) this.mItemView.findViewById(R.id.horizontal_bar_channel_title);
+        mChannelSplitView = this.mItemView.findViewById(R.id.horizontal_bar_channel_split);
     }
 
     /**
@@ -61,7 +61,7 @@ public class HorizontalNavigationItemView extends LinearLayout implements Checka
      */
     public void setChannelTitle(String channelTitle)
     {
-        mChannelTitle.setText(channelTitle);
+        mTvChannelTitle.setText(channelTitle);
     }
 
     public boolean isChannelSplit()
@@ -82,15 +82,15 @@ public class HorizontalNavigationItemView extends LinearLayout implements Checka
         {//是否被选中
             if (isChannelSplit)
             {//是否有下划线
-                mChannelSplit.setVisibility(View.VISIBLE);
-                mChannelSplit.setBackgroundColor(mSplitColor);
+                mChannelSplitView.setVisibility(View.VISIBLE);
+                mChannelSplitView.setBackgroundColor(mSplitColor);
             }
-            mChannelTitle.setTextColor(Color.parseColor("#ffcc66"));
+            mTvChannelTitle.setTextColor(Color.parseColor("#ffcc66"));
         }
         else
         {
-            mChannelTitle.setTextColor(Color.BLACK);
-            mChannelSplit.setVisibility(INVISIBLE);
+            mTvChannelTitle.setTextColor(Color.BLACK);
+            mChannelSplitView.setVisibility(INVISIBLE);
         }
     }
 

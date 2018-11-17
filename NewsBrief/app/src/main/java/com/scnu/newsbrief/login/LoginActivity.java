@@ -24,16 +24,16 @@ import com.scnu.newsbrief.register.RegisterActivity;
 public class LoginActivity extends AppCompatActivity
 {
     @BindView(R.id.et_user_name)
-    protected EditText mUserNameEditText;
+    protected EditText mEtUserName;
 
     @BindView(R.id.et_password)
-    protected EditText mPasswordEditText;
+    protected EditText mEtPassword;
 
     @BindView(R.id.bt_enter)
-    protected Button mEnterButton;
+    protected Button mBtnEnter;
 
     @BindView(R.id.cv_login)
-    protected CardView mLoginCardView;
+    protected CardView mCvLogin;
 
     @BindView(R.id.fab)
     protected FloatingActionButton mFab;
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity
 
     private void setListener()
     {
-        mEnterButton.setOnClickListener(new View.OnClickListener()
+        mBtnEnter.setOnClickListener(new View.OnClickListener()
         {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)

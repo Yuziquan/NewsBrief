@@ -16,7 +16,7 @@ public class FullContentActivity extends AppCompatActivity
 {
 
     @BindView(R.id.tv_full_content)
-    protected TextView mFullContentTextView;
+    protected TextView mTvFullContent;
 
     @BindView(R.id.toolbar1)
     protected Toolbar toolbar1;
@@ -27,9 +27,7 @@ public class FullContentActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_content);
 
-
         ButterKnife.bind(this);
-
 
         setSupportActionBar(toolbar1);
 
@@ -44,7 +42,7 @@ public class FullContentActivity extends AppCompatActivity
 
 
         String content = getIntent().getStringExtra("content");
-        mFullContentTextView.setText(content);
+        mTvFullContent.setText(content);
     }
 
     @Override

@@ -24,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity
     protected FloatingActionButton mFab;
 
     @BindView(R.id.cv_register)
-    protected CardView mRegisterCardView;
+    protected CardView mCvRegister;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -48,7 +48,6 @@ public class RegisterActivity extends AppCompatActivity
     }
 
 
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void ShowEnterAnimation()
@@ -61,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onTransitionStart(Transition transition)
             {
-                mRegisterCardView.setVisibility(View.GONE);
+                mCvRegister.setVisibility(View.GONE);
             }
 
             @Override
@@ -89,14 +88,13 @@ public class RegisterActivity extends AppCompatActivity
 
             }
 
-
         });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void animateRevealShow()
     {
-        Animator mAnimator = ViewAnimationUtils.createCircularReveal(mRegisterCardView, mRegisterCardView.getWidth() / 2, 0, mFab.getWidth() / 2, mRegisterCardView.getHeight());
+        Animator mAnimator = ViewAnimationUtils.createCircularReveal(mCvRegister, mCvRegister.getWidth() / 2, 0, mFab.getWidth() / 2, mCvRegister.getHeight());
         mAnimator.setDuration(500);
         mAnimator.setInterpolator(new AccelerateInterpolator());
         mAnimator.addListener(new AnimatorListenerAdapter()
@@ -110,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onAnimationStart(Animator animation)
             {
-                mRegisterCardView.setVisibility(View.VISIBLE);
+                mCvRegister.setVisibility(View.VISIBLE);
                 super.onAnimationStart(animation);
             }
         });
@@ -120,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void animateRevealClose()
     {
-        Animator mAnimator = ViewAnimationUtils.createCircularReveal(mRegisterCardView, mRegisterCardView.getWidth() / 2, 0, mRegisterCardView.getHeight(), mFab.getWidth() / 2);
+        Animator mAnimator = ViewAnimationUtils.createCircularReveal(mCvRegister, mCvRegister.getWidth() / 2, 0, mCvRegister.getHeight(), mFab.getWidth() / 2);
         mAnimator.setDuration(500);
         mAnimator.setInterpolator(new AccelerateInterpolator());
         mAnimator.addListener(new AnimatorListenerAdapter()
@@ -128,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onAnimationEnd(Animator animation)
             {
-                mRegisterCardView.setVisibility(View.INVISIBLE);
+                mCvRegister.setVisibility(View.INVISIBLE);
                 super.onAnimationEnd(animation);
                 mFab.setImageResource(R.drawable.plus);
                 RegisterActivity.super.onBackPressed();
@@ -142,7 +140,6 @@ public class RegisterActivity extends AppCompatActivity
         });
         mAnimator.start();
     }
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

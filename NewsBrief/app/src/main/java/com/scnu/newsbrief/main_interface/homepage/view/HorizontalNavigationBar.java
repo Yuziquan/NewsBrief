@@ -21,8 +21,9 @@ public abstract class HorizontalNavigationBar<T> extends HorizontalScrollView
     //分割线颜色
     protected int mSplitColor = Color.RED;
     private int mCurrentPosition = -1;
-    private LinearLayout mItemViewContainer;
+    private LinearLayout mLlItemViewContainer;
     private OnHorizontalNavigationSelectListener mOnHorizontalNavigationSelectListener;
+
     /**
      * 是否有下划线
      */
@@ -49,7 +50,7 @@ public abstract class HorizontalNavigationBar<T> extends HorizontalScrollView
     private void initView()
     {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.homepage_horizontal_navigation_container, this);
-        mItemViewContainer = (LinearLayout) view.findViewById(R.id.horizontal_navigation_container);
+        mLlItemViewContainer = (LinearLayout) view.findViewById(R.id.horizontal_navigation_container);
     }
 
     @Override
@@ -66,7 +67,7 @@ public abstract class HorizontalNavigationBar<T> extends HorizontalScrollView
         }
 
         this.mItems = items;
-        this.mItemViewContainer.removeAllViews();
+        this.mLlItemViewContainer.removeAllViews();
         for (int i = 0; i < items.size(); i++)
         {
             final HorizontalNavigationItemView itemView = new HorizontalNavigationItemView(getContext());
@@ -87,14 +88,14 @@ public abstract class HorizontalNavigationBar<T> extends HorizontalScrollView
                     }
                 }
             });
-            this.mItemViewContainer.addView(itemView);
+            this.mLlItemViewContainer.addView(itemView);
         }
         scrollTo(0, 0);
     }
 
     public void setCurrentChannelItem(int index)
     {
-        int childCount = this.mItemViewContainer.getChildCount();
+        int childCount = this.mLlItemViewContainer.getChildCount();
         if (index > childCount - 1)
         {
             throw new RuntimeException("position more size");
@@ -106,7 +107,7 @@ public abstract class HorizontalNavigationBar<T> extends HorizontalScrollView
         this.mCurrentPosition = index;
         for (int i = 0; i < childCount; i++)
         {
-            HorizontalNavigationItemView itemView = (HorizontalNavigationItemView) this.mItemViewContainer.getChildAt(i);
+            HorizontalNavigationItemView itemView = (HorizontalNavigationItemView) this.mLlItemViewContainer.getChildAt(i);
             itemView.setChecked(i == mCurrentPosition);
         }
         if (mCurrentPosition == 0)
@@ -115,7 +116,7 @@ public abstract class HorizontalNavigationBar<T> extends HorizontalScrollView
         }
         else
         {
-            int left = this.mItemViewContainer.getChildAt(index).getLeft();
+            int left = this.mLlItemViewContainer.getChildAt(index).getLeft();
             smoothScrollTo(left, 0);
         }
     }

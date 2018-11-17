@@ -79,7 +79,6 @@ public class NewsAdapter extends ArrayAdapter
                     case 2:
                         content = context.getResources().getString(R.string.news3);
 
-
                         break;
                     case 3:
                         content = context.getResources().getString(R.string.news4);
