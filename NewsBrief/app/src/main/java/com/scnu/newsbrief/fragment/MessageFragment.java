@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.main_interface.message;
+package com.scnu.newsbrief.fragment;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -49,7 +49,7 @@ public class MessageFragment extends BaseFragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.message_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_message, container, false);
 
         mUnbinder = ButterKnife.bind(this, rootView);
 

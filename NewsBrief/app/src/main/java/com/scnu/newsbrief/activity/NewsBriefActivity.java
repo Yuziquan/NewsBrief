@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.main_interface.homepage.activity;
+package com.scnu.newsbrief.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,37 +12,38 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.scnu.newsbrief.R;
 
-public class FullContentActivity extends AppCompatActivity
+public class NewsBriefActivity extends AppCompatActivity
 {
 
-    @BindView(R.id.tv_full_content)
-    protected TextView mTvFullContent;
+    @BindView(R.id.tv_news_brief)
+    protected TextView mTvNewsBrief;
 
-    @BindView(R.id.toolbar1)
-    protected Toolbar toolbar1;
+
+    @BindView(R.id.toolbar2)
+    protected Toolbar toolbar2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_full_content);
+        setContentView(R.layout.activity_brief);
 
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar1);
-
+        setSupportActionBar(toolbar2);
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null)
         {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("新闻全文");
+            actionBar.setTitle("新闻摘要");
         }
 
 
 
-        String content = getIntent().getStringExtra("content");
-        mTvFullContent.setText(content);
+
+        String brief = getIntent().getStringExtra("brief");
+        mTvNewsBrief.setText(brief);
     }
 
     @Override
@@ -63,10 +64,13 @@ public class FullContentActivity extends AppCompatActivity
     }
 
 
-    public static void actionStart(Context context, String content)
+    public static void actionStart(Context context, String newsBrief)
     {
-        Intent intent = new Intent(context, FullContentActivity.class);
-        intent.putExtra("content", content);
+        Intent intent = new Intent(context, NewsBriefActivity.class);
+
+        intent.putExtra("brief", newsBrief);
+
         context.startActivity(intent);
     }
+
 }

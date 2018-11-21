@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:orientation="horizontal">
-        <com.scnu.newsbrief.main_interface.homepage.view.MyHorizontalNavigationBar
+        <com.scnu.newsbrief.widget.MyHorizontalNavigationBar
                 android:id="@+id/horizontal_navigation"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"

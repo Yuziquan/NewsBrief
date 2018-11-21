@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.main_interface;
+package com.scnu.newsbrief.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,10 +20,10 @@ import com.ashokvarma.bottomnavigation.TextBadgeItem;
 import com.scnu.newsbrief.R;
 import com.scnu.newsbrief.adapter.MyFragmentPagerAdapter;
 import com.scnu.newsbrief.base.BaseActivity;
-import com.scnu.newsbrief.main_interface.forum.ForumFragment;
-import com.scnu.newsbrief.main_interface.homepage.fragment.HomepageFragment;
-import com.scnu.newsbrief.main_interface.message.MessageFragment;
-import com.scnu.newsbrief.main_interface.mine.MineFragment;
+import com.scnu.newsbrief.fragment.ForumFragment;
+import com.scnu.newsbrief.fragment.HomepageFragment;
+import com.scnu.newsbrief.fragment.MessageFragment;
+import com.scnu.newsbrief.fragment.MineFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class MainInterfaceActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_interface_activity);
+        setContentView(R.layout.activity_main_interface);
 
         initTransparentStatusBar();
 
@@ -106,7 +106,11 @@ public class MainInterfaceActivity extends BaseActivity
 
         TextBadgeItem messageBadgeItem = new TextBadgeItem().setBorderWidth(4).setAnimationDuration(200).setBackgroundColor(Color.RED).setText("3").setHideOnSelect(true);
 
-        mBottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.homepage, "首页")).addItem(new BottomNavigationItem(R.drawable.forum, "论坛")).addItem(new BottomNavigationItem(R.drawable.message, "消息").setBadgeItem(messageBadgeItem)).addItem(new BottomNavigationItem(R.drawable.mine, "我的")).setFirstSelectedPosition(0).initialise();
+        mBottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.homepage, "首页"))
+                .addItem(new BottomNavigationItem(R.drawable.forum, "论坛"))
+                .addItem(new BottomNavigationItem(R.drawable.message, "消息").setBadgeItem(messageBadgeItem))
+                .addItem(new BottomNavigationItem(R.drawable.mine, "我的")).
+                setFirstSelectedPosition(0).initialise();
 
 
         mBottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener()

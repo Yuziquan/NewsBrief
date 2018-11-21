@@ -12,22 +12,23 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".main_interface.MainInterfaceActivity">
+        <activity android:name=".activity.MainInterfaceActivity">
 
         </activity>
-        <activity android:name=".main_interface.homepage.activity.SearchPageActivity"/>
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".activity.SearchPageActivity"/>
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".register.RegisterActivity">
+        <activity android:name=".activity.RegisterActivity"
+                  android:theme="@style/Translucent">
         </activity>
-        <activity android:name=".main_interface.homepage.activity.NewsBriefActivity">
+        <activity android:name=".activity.NewsBriefActivity">
         </activity>
-        <activity android:name=".main_interface.homepage.activity.FullContentActivity">
+        <activity android:name=".activity.FullContentActivity">
         </activity>
     </application>
 

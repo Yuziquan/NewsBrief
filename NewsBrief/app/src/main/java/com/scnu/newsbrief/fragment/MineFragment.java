@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.main_interface.mine;
+package com.scnu.newsbrief.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,7 +45,7 @@ public class MineFragment extends BaseFragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.mine_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_mine, container, false);
 
         mUnbinder = ButterKnife.bind(this, rootView);
 

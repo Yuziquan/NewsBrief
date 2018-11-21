@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.main_interface.homepage.view;
+package com.scnu.newsbrief.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

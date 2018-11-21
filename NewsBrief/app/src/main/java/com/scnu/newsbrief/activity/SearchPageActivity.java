@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.main_interface.homepage.activity;
+package com.scnu.newsbrief.activity;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -14,7 +14,7 @@ public class SearchPageActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.homepage_search_page_activity);
+        setContentView(R.layout.search_page_activity_homepage);
 
         initTransparentStatusBar();
 

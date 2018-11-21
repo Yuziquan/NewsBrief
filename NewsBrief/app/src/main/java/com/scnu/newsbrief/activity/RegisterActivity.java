@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.register;
+package com.scnu.newsbrief.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register_activity);
+        setContentView(R.layout.activity_register);
 
         ButterKnife.bind(this);
 

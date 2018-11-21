@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.scnu.newsbrief.R;
 import com.scnu.newsbrief.entity.homepage.News;
-import com.scnu.newsbrief.main_interface.homepage.activity.FullContentActivity;
-import com.scnu.newsbrief.main_interface.homepage.activity.NewsBriefActivity;
+import com.scnu.newsbrief.activity.FullContentActivity;
+import com.scnu.newsbrief.activity.NewsBriefActivity;
 
 import java.util.List;
 

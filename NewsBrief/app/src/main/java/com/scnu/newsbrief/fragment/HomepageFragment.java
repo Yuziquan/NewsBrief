@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.main_interface.homepage.fragment;
+package com.scnu.newsbrief.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +18,9 @@ import com.scnu.newsbrief.adapter.NewsAdapter;
 import com.scnu.newsbrief.base.BaseFragment;
 import com.scnu.newsbrief.entity.homepage.Channel;
 import com.scnu.newsbrief.entity.homepage.News;
-import com.scnu.newsbrief.main_interface.homepage.activity.SearchPageActivity;
-import com.scnu.newsbrief.main_interface.homepage.view.*;
+import com.scnu.newsbrief.activity.SearchPageActivity;
+import com.scnu.newsbrief.widget.HorizontalNavigationBar;
+import com.scnu.newsbrief.widget.MyHorizontalNavigationBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.homepage_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_homepage, container, false);
         return rootView;
     }
 
@@ -72,7 +73,7 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
     {
         for (int i = 0; i < pagenum; i++)
         {
-            View view = getLayoutInflater().inflate(R.layout.homepage_content_page, null);
+            View view = getLayoutInflater().inflate(R.layout.content_page_homepage, null);
             mFragments.add(view);
             ListView listView = (ListView) view.findViewById(R.id.list_view);
 
@@ -105,7 +106,7 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
         mHorizontalNavigationBar.addOnHorizontalNavigationSelectListener(this);
         mHorizontalNavigationBar.setCurrentChannelItem(0);
 //listview适配器
-        adapter = new NewsAdapter(this.getActivity(), R.layout.homepage_news_item, newsList);
+        adapter = new NewsAdapter(this.getActivity(), R.layout.news_item_homepage, newsList);
 
         viewPager = (ViewPager) view.findViewById(R.id.contentpage);
         mFragments = new ArrayList<>();

@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.login;
+package com.scnu.newsbrief.activity;
 
 import android.annotation.TargetApi;
 import android.app.ActivityOptions;
@@ -18,8 +18,6 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.scnu.newsbrief.R;
-import com.scnu.newsbrief.main_interface.MainInterfaceActivity;
-import com.scnu.newsbrief.register.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity
 {
@@ -43,7 +41,7 @@ public class LoginActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
 

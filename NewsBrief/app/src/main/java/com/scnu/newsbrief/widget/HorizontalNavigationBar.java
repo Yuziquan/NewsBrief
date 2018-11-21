@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.main_interface.homepage.view;
+package com.scnu.newsbrief.widget;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -49,7 +49,7 @@ public abstract class HorizontalNavigationBar<T> extends HorizontalScrollView
 
     private void initView()
     {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.homepage_horizontal_navigation_container, this);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.horizontal_navigation_container_homepage, this);
         mLlItemViewContainer = (LinearLayout) view.findViewById(R.id.horizontal_navigation_container);
     }
 

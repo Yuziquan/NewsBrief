@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.main_interface.homepage.view;
+package com.scnu.newsbrief.widget;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -49,7 +49,7 @@ public class HorizontalNavigationItemView extends LinearLayout implements Checka
     private void initView()
     {
         //attachToRoot(默认true)决定了，root是否 是resource的父对象
-        this.mItemView = LayoutInflater.from(getContext()).inflate(R.layout.homepage_horizontal_bar_layout, this);
+        this.mItemView = LayoutInflater.from(getContext()).inflate(R.layout.horizontal_bar_layout_homepage, this);
         mTvChannelTitle = (TextView) this.mItemView.findViewById(R.id.horizontal_bar_channel_title);
         mChannelSplitView = this.mItemView.findViewById(R.id.horizontal_bar_channel_split);
     }
