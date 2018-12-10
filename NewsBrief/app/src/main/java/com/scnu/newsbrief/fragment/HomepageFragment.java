@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +15,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.scnu.newsbrief.R;
+import com.scnu.newsbrief.activity.MainInterfaceActivity;
 import com.scnu.newsbrief.adapter.NewsAdapter;
 import com.scnu.newsbrief.base.BaseFragment;
+import com.scnu.newsbrief.constant.Constants;
 import com.scnu.newsbrief.entity.homepage.Channel;
 import com.scnu.newsbrief.entity.homepage.News;
 import com.scnu.newsbrief.activity.SearchPageActivity;
+import com.scnu.newsbrief.entity.network.NewsResponseInfo;
 import com.scnu.newsbrief.widget.HorizontalNavigationBar;
 import com.scnu.newsbrief.widget.MyHorizontalNavigationBar;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * Created by WuchangI on 2018/10/31.
@@ -36,25 +48,36 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
 {
     //新闻分类水平滑动导航条
     private MyHorizontalNavigationBar mHorizontalNavigationBar;
+    //顶部水平导航条新闻分类
+    private String[] newclass = new String[]{"热点", "军事", "汽车", "娱乐", "财经", "其他"};
+
     //新闻列表，listview子项
-    private List<News> newsList = new ArrayList<News>();
-    //viewpage的每一页
+    //private List<News> newsList = new ArrayList<News>();
+
+    //viewpager的每一页
     private ArrayList<View> mFragments;
     private ViewPager viewPager;
-    private View view;
-    //顶部水平导航条新闻分类
-    private String[] newclass = new String[]{"政治", "经济", "文化", "生活", "校园", "军事", "八卦", "娱乐"};
+    private Myadapter viewpageradapter;
+
+    //记录新闻分类的种类数
     private int pagenum = 0;
-    //listview的适配器
-    private NewsAdapter adapter;
+
+
     private TextView edt_search;
     private ImageView addnewsclass;
-
+    //记录的是所有新闻
+    List<NewsResponseInfo.NewsContentsBean> newsContents;
+    //显示的新闻，一个向量，每个元素是一个列表，每个列表都是一类新闻
+    Vector<List<NewsResponseInfo.NewsContentsBean>> newscontentsdisplay=new Vector<>();
+    //每一页的listview的适配器
+    private List<NewsAdapter> newsAdapters=new LinkedList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
+        if (!EventBus.getDefault().isRegistered(this))
+        EventBus.getDefault().register(this);
         View rootView = inflater.inflate(R.layout.fragment_homepage, container, false);
         return rootView;
     }
@@ -69,15 +92,14 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
         initNews();
     }
 
+    //初始化不同新闻类别的每一页
     private void initpage()
     {
         for (int i = 0; i < pagenum; i++)
         {
             View view = getLayoutInflater().inflate(R.layout.content_page_homepage, null);
             mFragments.add(view);
-            ListView listView = (ListView) view.findViewById(R.id.list_view);
 
-            listView.setAdapter(adapter);
         }
     }
 
@@ -86,6 +108,7 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
     private void initView(View view)
     {
 
+        newsContents=new LinkedList<>();
         addnewsclass = (ImageView) view.findViewById(R.id.addnewclass);
         pagenum = newclass.length;
         //点击搜索事件
@@ -106,10 +129,14 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
         mHorizontalNavigationBar.addOnHorizontalNavigationSelectListener(this);
         mHorizontalNavigationBar.setCurrentChannelItem(0);
 //listview适配器
-        adapter = new NewsAdapter(this.getActivity(), R.layout.news_item_homepage, newsList);
-
+        newscontentsdisplay=new Vector<>();
+        for (int i=0;i<pagenum;i++){
+            newscontentsdisplay.add(new LinkedList<NewsResponseInfo.NewsContentsBean>());
+        }
         viewPager = (ViewPager) view.findViewById(R.id.contentpage);
         mFragments = new ArrayList<>();
+
+
     }
 
     //返回顶部导航条新闻分类数据
@@ -141,7 +168,7 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
     private void initNews()
     {
 
-        News sina = new News("新浪新闻", R.drawable.sina, "世界上第一个以“进口”为主题的国家级展会——首届中国国际进口博览会，将于......", "url");
+        /*News sina = new News("新浪新闻", R.drawable.sina, "世界上第一个以“进口”为主题的国家级展会——首届中国国际进口博览会，将于......", "url");
 
         News wangyi = new News("网易新闻", R.drawable.wangyi, "人事变动、营收净利双降，当围绕着光明乳业（600597.SH）的质疑声愈演愈烈之际......", "url");
 
@@ -167,10 +194,10 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
         newsList.add(souhu);
         newsList.add(fenghuang);
         newsList.add(yangshi);
-        newsList.add(tengxun);
+        newsList.add(tengxun);*/
 
-
-        viewPager.setAdapter(new Myadapter());
+        viewpageradapter=new Myadapter();
+        viewPager.setAdapter(viewpageradapter);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
         {
@@ -193,6 +220,51 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
             }
         });
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(NewsResponseInfo messageEvent) {
+        //Toast.makeText(this, messageEvent.getError(), Toast.LENGTH_SHORT).show();
+        if (messageEvent.getCode().equals("0")){
+            //Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
+            return;
+        }
+if (Constants.newsContents!=null){
+            newsContents=Constants.newsContents;
+            newscontentsdisplay=Constants.newscontentsdisplay;
+    viewpageradapter.notify();
+    return;
+}
+        newsContents=messageEvent.getNewsContents();
+        for (int i=0;i<newsContents.size();i++){
+            String category=newsContents.get(i).getCategory();
+            int j=0;
+            for (;j<pagenum;j++){
+                if (category.equals(newclass[j])){
+                    newscontentsdisplay.get(j).add(newsContents.get(i));
+                    break;
+                }
+            }
+            if (j==pagenum){
+                newscontentsdisplay.get(pagenum-1).add(newsContents.get(i));
+            }
+
+        }
+
+
+       for (int i=0;i<pagenum;i++){
+           ListView listView = (ListView) mFragments.get(i).findViewById(R.id.list_view);
+           NewsAdapter newsAdapter=new NewsAdapter(this.getActivity(), R.layout.news_item_homepage, newscontentsdisplay.get(i));
+           newsAdapter.setCategoryid(i);
+           newsAdapters.add(newsAdapter);
+           listView.setAdapter(newsAdapter);
+       }
+
+        //adapter.notify();
+        viewpageradapter.notify();
+
+        Constants.newsContents=newsContents;
+        Constants.newscontentsdisplay=newscontentsdisplay;
     }
 
 
@@ -226,6 +298,13 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
         {
             return view == object;//官方也是这样写的
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
     }
 }
 

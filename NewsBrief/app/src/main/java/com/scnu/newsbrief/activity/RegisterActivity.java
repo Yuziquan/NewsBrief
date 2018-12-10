@@ -14,9 +14,19 @@ import android.transition.TransitionInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.scnu.newsbrief.R;
+import com.scnu.newsbrief.entity.network.RegisterResponseInfo;
+import com.scnu.newsbrief.network.SendMessageManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class RegisterActivity extends AppCompatActivity
 {
@@ -25,6 +35,21 @@ public class RegisterActivity extends AppCompatActivity
 
     @BindView(R.id.cv_register)
     protected CardView mCvRegister;
+
+    @BindView(R.id.et_username)
+    protected EditText et_username;
+
+    @BindView(R.id.et_password)
+    protected EditText et_password;
+
+    @BindView(R.id.et_repeatpassword)
+    protected EditText et_repeatpassword;
+
+    @BindView(R.id.bt_go)
+    protected Button bt_go;
+
+    @BindView(R.id.et_email)
+    protected EditText et_email;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -35,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        EventBus.getDefault().register(this);
         ShowEnterAnimation();
         mFab.setOnClickListener(new View.OnClickListener()
         {
@@ -43,6 +69,22 @@ public class RegisterActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 animateRevealClose();
+            }
+        });
+
+        bt_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!et_password.getText().toString().equals(et_repeatpassword.getText().toString())){
+                    Toast.makeText(RegisterActivity.this, "两次密码输入不一致", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                SendMessageManager.getInstance().getRegisterStatus(et_username.getText().toString(),
+                        et_email.getText().toString(),
+                        et_password.getText().toString());
+
+
             }
         });
     }
@@ -147,5 +189,23 @@ public class RegisterActivity extends AppCompatActivity
     public void onBackPressed()
     {
         animateRevealClose();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(RegisterResponseInfo messageEvent) {
+        //Toast.makeText(this, messageEvent.getError(), Toast.LENGTH_SHORT).show();
+        if (messageEvent.getError().equals("true")){
+            Toast.makeText(this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
+            animateRevealClose();
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
     }
 }

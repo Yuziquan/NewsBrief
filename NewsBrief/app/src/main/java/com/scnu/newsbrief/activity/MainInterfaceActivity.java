@@ -20,12 +20,21 @@ import com.ashokvarma.bottomnavigation.TextBadgeItem;
 import com.scnu.newsbrief.R;
 import com.scnu.newsbrief.adapter.MyFragmentPagerAdapter;
 import com.scnu.newsbrief.base.BaseActivity;
+import com.scnu.newsbrief.entity.network.NewsResponseInfo;
+import com.scnu.newsbrief.entity.network.RegisterResponseInfo;
 import com.scnu.newsbrief.fragment.ForumFragment;
 import com.scnu.newsbrief.fragment.HomepageFragment;
 import com.scnu.newsbrief.fragment.MessageFragment;
 import com.scnu.newsbrief.fragment.MineFragment;
+import com.scnu.newsbrief.network.SendMessageManager;
+import com.scnu.newsbrief.widget.RoundImageView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainInterfaceActivity extends BaseActivity
@@ -37,11 +46,20 @@ public class MainInterfaceActivity extends BaseActivity
     protected ViewPager mViewPager;
 
     @BindView(R.id.cbtn_add)
-    protected CircleButton mCbtnAdd;
+    protected RoundImageView mCbtnAdd;
 
     private List<Fragment> mFragmentList;
 
     private int mCurFragmentIndex;
+
+
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +67,8 @@ public class MainInterfaceActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_interface);
 
+
+        SendMessageManager.getInstance().getNews();
         initTransparentStatusBar();
 
         ButterKnife.bind(this);
@@ -102,7 +122,7 @@ public class MainInterfaceActivity extends BaseActivity
 
         mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
-        mBottomNavigationBar.setActiveColor(R.color.colorAccent);
+        mBottomNavigationBar.setActiveColor(R.color.home_pager_bar_color);
 
         TextBadgeItem messageBadgeItem = new TextBadgeItem().setBorderWidth(4).setAnimationDuration(200).setBackgroundColor(Color.RED).setText("3").setHideOnSelect(true);
 
