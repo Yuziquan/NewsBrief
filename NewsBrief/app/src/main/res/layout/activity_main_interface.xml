@@ -20,14 +20,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom">
 
-        <at.markushi.ui.CircleButton
+        <com.scnu.newsbrief.widget.RoundImageView
                 android:id="@+id/cbtn_add"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                app:cb_color="@android:color/holo_red_light"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:cb_color="@android:color/black"
                 app:cb_pressedRingWidth="10dip"
-                android:src="@drawable/main_interface_bottom_add"/>
+                android:src="@drawable/addicon"
+            app:type="circle"/>
 
     </com.ashokvarma.bottomnavigation.BottomNavigationBar>
 

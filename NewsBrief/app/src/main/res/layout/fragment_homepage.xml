@@ -15,7 +15,7 @@
                   android:id="@+id/layout_home_pager_bar"
                   android:layout_height="?attr/actionBarSize"
                   android:background="@drawable/homepage_head_bg_gradient"
-                  android:gravity="center_vertical"
+                  android:gravity="center"
                   android:orientation="horizontal">
 
         <ImageView
@@ -26,9 +26,8 @@
                 android:src="@drawable/search"/>
         <TextView
                 android:id="@+id/search"
-                android:layout_width="0.0dp"
+                android:layout_width="300dp"
                 android:layout_height="31dp"
-                android:layout_weight="1"
                 android:background="@drawable/style_home_pager_toolbar_search_view"
                 android:gravity="center_vertical"
                 android:hint="     搜你想搜的"

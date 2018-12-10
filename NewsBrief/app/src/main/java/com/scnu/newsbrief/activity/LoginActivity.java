@@ -15,9 +15,18 @@ import android.transition.Explode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.scnu.newsbrief.R;
+import com.scnu.newsbrief.entity.network.LoginResponseInfo;
+import com.scnu.newsbrief.entity.network.RegisterResponseInfo;
+import com.scnu.newsbrief.network.SendMessageManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class LoginActivity extends AppCompatActivity
 {
@@ -48,6 +57,7 @@ public class LoginActivity extends AppCompatActivity
         initTransparentStatusBar();
 
         setListener();
+        EventBus.getDefault().register(this);
 
     }
 
@@ -89,17 +99,10 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Explode explode = new Explode();
-                explode.setDuration(500);
-
-                getWindow().setExitTransition(explode);
-                getWindow().setEnterTransition(explode);
-                ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this);
 
 
+                SendMessageManager.getInstance().getLoginStatus(mEtUserName.getText().toString(),mEtPassword.getText().toString());
 
-                Intent i2 = new Intent(LoginActivity.this, MainInterfaceActivity.class);
-                startActivity(i2, oc2.toBundle());
             }
         });
         mFab.setOnClickListener(new View.OnClickListener()
@@ -128,5 +131,31 @@ public class LoginActivity extends AppCompatActivity
     {
         super.onResume();
         mFab.setVisibility(View.VISIBLE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(LoginResponseInfo messageEvent) {
+        //Toast.makeText(this, messageEvent.getError(), Toast.LENGTH_SHORT).show();
+        if (messageEvent.getError().equals("true")){
+            Toast.makeText(this, "登录成功，欢迎！", Toast.LENGTH_SHORT).show();
+
+            Explode explode = new Explode();
+            explode.setDuration(500);
+
+            getWindow().setExitTransition(explode);
+            getWindow().setEnterTransition(explode);
+            ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this);
+
+            Intent i2 = new Intent(LoginActivity.this, MainInterfaceActivity.class);
+            startActivity(i2, oc2.toBundle());
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
     }
 }
