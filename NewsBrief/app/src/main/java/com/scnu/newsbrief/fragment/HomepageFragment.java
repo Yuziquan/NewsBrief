@@ -1,7 +1,12 @@
 package com.scnu.newsbrief.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -25,6 +30,10 @@ import com.scnu.newsbrief.activity.SearchPageActivity;
 import com.scnu.newsbrief.entity.network.NewsResponseInfo;
 import com.scnu.newsbrief.widget.HorizontalNavigationBar;
 import com.scnu.newsbrief.widget.MyHorizontalNavigationBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,6 +60,7 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
     //顶部水平导航条新闻分类
     private String[] newclass = new String[]{"热点", "军事", "汽车", "娱乐", "财经", "其他"};
 
+    private Handler refreshhandler;
     //新闻列表，listview子项
     //private List<News> newsList = new ArrayList<News>();
 
@@ -62,11 +72,14 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
     //记录新闻分类的种类数
     private int pagenum = 0;
 
+    private SmartRefreshLayout refreshLayout;
 
     private TextView edt_search;
     private ImageView addnewsclass;
     //记录的是所有新闻
     List<NewsResponseInfo.NewsContentsBean> newsContents;
+    //分好类的全部新闻
+    public static Vector<List<NewsResponseInfo.NewsContentsBean>> classifynewsContents=new Vector<>();
     //显示的新闻，一个向量，每个元素是一个列表，每个列表都是一类新闻
     Vector<List<NewsResponseInfo.NewsContentsBean>> newscontentsdisplay=new Vector<>();
     //每一页的listview的适配器
@@ -79,6 +92,7 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
         if (!EventBus.getDefault().isRegistered(this))
         EventBus.getDefault().register(this);
         View rootView = inflater.inflate(R.layout.fragment_homepage, container, false);
+
         return rootView;
     }
 
@@ -98,11 +112,25 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
         for (int i = 0; i < pagenum; i++)
         {
             View view = getLayoutInflater().inflate(R.layout.content_page_homepage, null);
+            refreshLayout=view.findViewById(R.id.refresh_news);
+            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(RefreshLayout refreshlayout) {
+                    pudownrefresh();
+                    refreshlayout.finishRefresh();
+                }
+            });
+            refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+                @Override
+                public void onLoadmore(RefreshLayout refreshlayout) {
+                    loadmorenews();
+                    refreshlayout.finishLoadmore();
+                }
+            });
             mFragments.add(view);
 
         }
     }
-
 
 
     private void initView(View view)
@@ -131,11 +159,18 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
 //listview适配器
         newscontentsdisplay=new Vector<>();
         for (int i=0;i<pagenum;i++){
+            classifynewsContents.add(new LinkedList<NewsResponseInfo.NewsContentsBean>());
             newscontentsdisplay.add(new LinkedList<NewsResponseInfo.NewsContentsBean>());
         }
         viewPager = (ViewPager) view.findViewById(R.id.contentpage);
         mFragments = new ArrayList<>();
-
+        refreshhandler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                pudownrefresh();
+            }
+        };
 
     }
 
@@ -167,34 +202,20 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
 
     private void initNews()
     {
-
-        /*News sina = new News("新浪新闻", R.drawable.sina, "世界上第一个以“进口”为主题的国家级展会——首届中国国际进口博览会，将于......", "url");
-
-        News wangyi = new News("网易新闻", R.drawable.wangyi, "人事变动、营收净利双降，当围绕着光明乳业（600597.SH）的质疑声愈演愈烈之际......", "url");
-
-        News souhu = new News("搜狐新闻", R.drawable.souhu, "随着A股上市银行三季报披露宣告完结，具体的业绩信息也浮出水面。数据显示，前三季度......", "url");
-
-        News fenghuang = new News("凤凰新闻", R.drawable.fenghuang, "西安高新技术产业开发区4日下午发通报再次回应“80后任千亿资产国企董事长”......", "url");
-
-        News yangshi = new News("央视新闻", R.drawable.yangshi, "此次进博会企业展分7个展区、展览面积27万平方米，3000多家企业签约......", "url");
-
-        News tengxun = new News("腾讯新闻", R.drawable.tengxun," 聚焦成本高企、差别待遇、融资困难、活力不足等当前民营企业集中反映的问题，上海提出......" +
-                "", "url");
-
-
-        newsList.add(sina);
-        newsList.add(wangyi);
-        newsList.add(souhu);
-        newsList.add(fenghuang);
-        newsList.add(yangshi);
-        newsList.add(tengxun);
-
-        newsList.add(sina);
-        newsList.add(wangyi);
-        newsList.add(souhu);
-        newsList.add(fenghuang);
-        newsList.add(yangshi);
-        newsList.add(tengxun);*/
+        for (int i=0;i<6;i++){
+            SharedPreferences share=getContext().getSharedPreferences("news"+i, Activity.MODE_WORLD_READABLE);
+            NewsResponseInfo.NewsContentsBean temp=new NewsResponseInfo.NewsContentsBean();
+            temp.setTitle(share.getString("title","暂无数据"));
+            temp.setContent(share.getString("content","暂无数据"));
+            temp.setUrl(share.getString("url","暂无数据"));
+            temp.setTimes(share.getString("time","暂无数据"));
+            temp.setCategory(share.getString("category","暂无数据"));
+            temp.setNewFrom(share.getString("newFrom","暂无数据"));
+            for (int j=0;j<pagenum;j++){
+                newscontentsdisplay.get(j).add(temp);
+            }
+            //viewpageradapter.notifyDataSetChanged();
+        }
 
         viewpageradapter=new Myadapter();
         viewPager.setAdapter(viewpageradapter);
@@ -231,24 +252,48 @@ public class HomepageFragment extends BaseFragment implements HorizontalNavigati
         }
 if (Constants.newsContents!=null){
             newsContents=Constants.newsContents;
+            classifynewsContents=Constants.classifynewsContents;
             newscontentsdisplay=Constants.newscontentsdisplay;
     viewpageradapter.notify();
     return;
 }
+
+
         newsContents=messageEvent.getNewsContents();
+        for (int i=0;i<6;i++){
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("news"+i, Context.MODE_PRIVATE); //私有数据
+            NewsResponseInfo.NewsContentsBean temp=newsContents.get(i);
+            SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+            editor.putString("title",temp.getTitle());
+            editor.putString("content", temp.getContent());
+            editor.putString("url", temp.getUrl());
+            editor.putString("time", temp.getTimes());
+            editor.putString("category", temp.getCategory());
+            editor.putString("newFrom",temp.getNewFrom());
+            editor.commit();//提交修改
+        }
+
         for (int i=0;i<newsContents.size();i++){
             String category=newsContents.get(i).getCategory();
             int j=0;
             for (;j<pagenum;j++){
                 if (category.equals(newclass[j])){
-                    newscontentsdisplay.get(j).add(newsContents.get(i));
+                    classifynewsContents.get(j).add(newsContents.get(i));
                     break;
                 }
             }
             if (j==pagenum){
-                newscontentsdisplay.get(pagenum-1).add(newsContents.get(i));
+                classifynewsContents.get(pagenum-1).add(newsContents.get(i));
             }
 
+        }
+        for (int i=0;i<pagenum;i++){
+            newscontentsdisplay.get(i).clear();
+            for (int j=0;j<6;j++){
+                NewsResponseInfo.NewsContentsBean temp=classifynewsContents.get(i).get(j);
+                //classifynewsContents.get(i).add(temp);
+                newscontentsdisplay.get(i).add(temp);
+            }
         }
 
 
@@ -264,7 +309,36 @@ if (Constants.newsContents!=null){
         viewpageradapter.notify();
 
         Constants.newsContents=newsContents;
+        Constants.classifynewsContents=classifynewsContents;
         Constants.newscontentsdisplay=newscontentsdisplay;
+    }
+
+    //下拉刷新
+    private void pudownrefresh() {
+        if (newsContents.size()==0)return;
+        for (int n=0;n<pagenum;n++) {
+            newscontentsdisplay.get(n).clear();
+            for (int j = 0; j < 6; j++) {
+                int no=(int) (Math.random()*classifynewsContents.get(n).size()-1);
+                NewsResponseInfo.NewsContentsBean temp = classifynewsContents.get(n).get(no);
+                //classifynewsContents.get(n).add(temp);
+                newscontentsdisplay.get(n).add(temp);
+            }
+        }
+        Log.d("","有刷新");
+        //Constants.classifynewsContents=classifynewsContents;
+        viewpageradapter.notifyDataSetChanged();
+    }
+//上拉加载更多
+    private void loadmorenews() {
+        if (newsContents.size()==0)return;
+        for (int n=0;n<pagenum;n++) {
+            for (int j = newscontentsdisplay.size(); j <newscontentsdisplay.size()+ 6; j++) {
+                NewsResponseInfo.NewsContentsBean temp = classifynewsContents.get(n).get(j);
+                newscontentsdisplay.get(n).add(temp);
+            }
+        }
+        viewpageradapter.notifyDataSetChanged();
     }
 
 
