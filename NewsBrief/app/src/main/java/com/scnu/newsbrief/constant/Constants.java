@@ -23,7 +23,9 @@ public class Constants
 
     //记录的是所有新闻
     public static List<NewsResponseInfo.NewsContentsBean> newsContents=null;
-    //显示的新闻，一个向量，每个元素是一个列表，每个列表都是一类新闻
+//分好类的全部新闻
+    public static Vector<List<NewsResponseInfo.NewsContentsBean>> classifynewsContents=new Vector<>();
+    //要显示的新闻，一个向量，每个元素是一个列表，每个列表都是一类新闻
    public static Vector<List<NewsResponseInfo.NewsContentsBean>> newscontentsdisplay=new Vector<>();
 
    public static Map<String,Integer> newsfromimg=new HashMap<String, Integer>(){{
