@@ -1,4 +1,6 @@
-package com.scnu.newsbrief.entity.network;
+package com.scnu.newsbrief.bean.network;
+
+import com.scnu.newsbrief.bean.network.base.BaseResponseInfo;
 
 import java.util.List;
 
@@ -6,8 +8,7 @@ import java.util.List;
  * Created by WuchangI on 2018/11/17.
  */
 
-public class NewsResponseInfo extends BaseResponseInfo
-{
+public class NewsResponseInfo extends BaseResponseInfo {
 
     /**
      * code : 1
@@ -30,33 +31,27 @@ public class NewsResponseInfo extends BaseResponseInfo
      */
     private List<NewsContentsBean> newsContents;
 
-    public String getCode()
-    {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(String code)
-    {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public String getMsg()
-    {
+    public String getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg)
-    {
+    public void setMsg(String msg) {
         this.msg = msg;
     }
 
-    public List<NewsContentsBean> getNewsContents()
-    {
+    public List<NewsContentsBean> getNewsContents() {
         return newsContents;
     }
 
-    public void setNewsContents(List<NewsContentsBean> newsContents)
-    {
+    public void setNewsContents(List<NewsContentsBean> newsContents) {
         this.newsContents = newsContents;
     }
 
@@ -64,8 +59,7 @@ public class NewsResponseInfo extends BaseResponseInfo
     /**
      * 新闻列表
      */
-    public static class NewsContentsBean
-    {
+    public static class NewsContentsBean {
         /**
          * title : 热门合资SUV推荐 这几款居家旅行两相宜
          * content : ['2019款奇骏2.5L车型还配备了4X4-i智能全模式		四驱', '在主动安全科技上与2019款奇骏                                           2.5L CVT四驱至尊版一致', '配置方面的提升可以看做是2019款奇骏的核心升级方面', '得益于日产对                                             2019款奇骏的发动机进行全面提升', '2019款奇骏', '2019款奇骏2.5L车型更是搭载了BOSE全定制高                                              保真豪华音响系统', '2019款奇骏同样采用该家族式风格特点', '2019款奇骏焕新上市']
@@ -105,63 +99,51 @@ public class NewsResponseInfo extends BaseResponseInfo
          */
         private String newFrom;
 
-        public String getTitle()
-        {
+        public String getTitle() {
             return title;
         }
 
-        public void setTitle(String title)
-        {
+        public void setTitle(String title) {
             this.title = title;
         }
 
-        public String getContent()
-        {
+        public String getContent() {
             return content;
         }
 
-        public void setContent(String content)
-        {
+        public void setContent(String content) {
             this.content = content;
         }
 
-        public String getUrl()
-        {
+        public String getUrl() {
             return url;
         }
 
-        public void setUrl(String url)
-        {
+        public void setUrl(String url) {
             this.url = url;
         }
 
-        public String getTimes()
-        {
+        public String getTimes() {
             return times;
         }
 
-        public void setTimes(String times)
-        {
+        public void setTimes(String times) {
             this.times = times;
         }
 
-        public String getCategory()
-        {
+        public String getCategory() {
             return category;
         }
 
-        public void setCategory(String category)
-        {
+        public void setCategory(String category) {
             this.category = category;
         }
 
-        public String getNewFrom()
-        {
+        public String getNewFrom() {
             return newFrom;
         }
 
-        public void setNewFrom(String newFrom)
-        {
+        public void setNewFrom(String newFrom) {
             this.newFrom = newFrom;
         }
     }

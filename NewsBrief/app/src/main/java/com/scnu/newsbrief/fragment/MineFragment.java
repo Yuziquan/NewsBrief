@@ -3,6 +3,7 @@ package com.scnu.newsbrief.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.bumptech.glide.Glide;
 import com.scnu.newsbrief.R;
-import com.scnu.newsbrief.base.BaseFragment;
+
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import java.util.ArrayList;
@@ -31,8 +32,7 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 /**
  * "我的" 页面
  */
-public class MineFragment extends BaseFragment
-{
+public class MineFragment extends Fragment {
     @BindView(R.id.iv_head_bg)
     protected ImageView mIvHeadBg;
 

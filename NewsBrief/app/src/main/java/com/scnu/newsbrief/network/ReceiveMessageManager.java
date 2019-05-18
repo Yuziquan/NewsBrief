@@ -1,26 +1,25 @@
 package com.scnu.newsbrief.network;
 
-import com.scnu.newsbrief.entity.network.BaseResponseInfo;
-import com.scnu.newsbrief.entity.network.LoginResponseInfo;
-import com.scnu.newsbrief.entity.network.NewsResponseInfo;
-import com.scnu.newsbrief.entity.network.RegisterResponseInfo;
+import com.scnu.newsbrief.bean.network.base.BaseResponseInfo;
+import com.scnu.newsbrief.bean.network.LoginStatus;
+import com.scnu.newsbrief.bean.network.NewsResponseInfo;
+import com.scnu.newsbrief.bean.network.RegisterStatus;
+import com.scnu.newsbrief.constant.Constants;
+
 import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by WuchangI on 2018/11/17.
  */
 
-public class ReceiveMessageManager
-{
-    private static ReceiveMessageManager receiveMessageManager;
+public class ReceiveMessageManager {
+    private static ReceiveMessageManager sReceiveMessageManager;
 
-    public static ReceiveMessageManager getInstance()
-    {
-        return receiveMessageManager == null ? receiveMessageManager = new ReceiveMessageManager() : receiveMessageManager;
+    public static ReceiveMessageManager getInstance() {
+        return sReceiveMessageManager == null ? sReceiveMessageManager = new ReceiveMessageManager() : sReceiveMessageManager;
     }
 
-    private ReceiveMessageManager()
-    {
+    private ReceiveMessageManager() {
     }
 
 
@@ -30,31 +29,22 @@ public class ReceiveMessageManager
      * @param baseResponseInfo
      * @param appendUrl
      */
-    public void dispatchMessage(BaseResponseInfo baseResponseInfo, String appendUrl)
-    {
-        switch (appendUrl)
-        {
-            case "login.php":
-
-                LoginResponseInfo loginResponseInfo = (LoginResponseInfo) baseResponseInfo;
-                EventBus.getDefault().post(loginResponseInfo);
-
+    public void
+    dispatchMessage(BaseResponseInfo baseResponseInfo, String appendUrl) {
+        switch (appendUrl) {
+            case Constants.URL.GET_REGISTER_STATUS:
+                RegisterStatus registerStatus = (RegisterStatus) baseResponseInfo;
+                EventBus.getDefault().post(registerStatus);
                 break;
 
-
-            case "register.php":
-
-                RegisterResponseInfo registerResponseInfo = (RegisterResponseInfo) baseResponseInfo;
-                EventBus.getDefault().post(registerResponseInfo);
-
+            case Constants.URL.GET_LOGIN_STATUS:
+                LoginStatus loginStatus = (LoginStatus) baseResponseInfo;
+                EventBus.getDefault().post(loginStatus);
                 break;
 
-
-            case "newsContent.php":
-
+            case Constants.URL.GET_NEWS_CONTENT:
                 NewsResponseInfo newsResponseInfo = (NewsResponseInfo) baseResponseInfo;
                 EventBus.getDefault().post(newsResponseInfo);
-
                 break;
 
             default:

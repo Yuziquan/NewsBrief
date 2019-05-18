@@ -3,6 +3,7 @@ package com.scnu.newsbrief.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
@@ -21,7 +22,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.scnu.newsbrief.R;
-import com.scnu.newsbrief.entity.network.RegisterResponseInfo;
+import com.scnu.newsbrief.bean.network.RegisterStatus;
 import com.scnu.newsbrief.network.SendMessageManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +61,8 @@ public class RegisterActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        initTransparentStatusBar();
+
         EventBus.getDefault().register(this);
         ShowEnterAnimation();
         mFab.setOnClickListener(new View.OnClickListener()
@@ -83,8 +86,6 @@ public class RegisterActivity extends AppCompatActivity
                 SendMessageManager.getInstance().getRegisterStatus(et_username.getText().toString(),
                         et_email.getText().toString(),
                         et_password.getText().toString());
-
-
             }
         });
     }
@@ -184,6 +185,28 @@ public class RegisterActivity extends AppCompatActivity
     }
 
 
+    /**
+     * 初始化透明状态栏
+     */
+    private void initTransparentStatusBar() {
+        //实现透明状态栏效果
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
+            decorView.setSystemUiVisibility(option);
+
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBackPressed()
@@ -192,7 +215,7 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(RegisterResponseInfo messageEvent) {
+    public void Event(RegisterStatus messageEvent) {
         //Toast.makeText(this, messageEvent.getError(), Toast.LENGTH_SHORT).show();
         if (messageEvent.getError().equals("true")){
             Toast.makeText(this, "注册成功，请登录", Toast.LENGTH_SHORT).show();

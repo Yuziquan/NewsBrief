@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.scnu.newsbrief.R;
-import com.scnu.newsbrief.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,8 +30,7 @@ import java.util.Map;
 /**
  * “消息” 页面
  */
-public class MessageFragment extends BaseFragment
-{
+public class MessageFragment extends Fragment {
     private static final String TAG = "MessageFragment";
 
     private Unbinder mUnbinder;

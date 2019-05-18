@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.scnu.newsbrief.R;
-import com.scnu.newsbrief.base.BaseFragment;
 import com.scnu.newsbrief.constant.Constants;
 
 /**
@@ -25,8 +25,7 @@ import com.scnu.newsbrief.constant.Constants;
 /**
  * “论坛” 页面
  */
-public class ForumFragment extends BaseFragment
-{
+public class ForumFragment extends Fragment {
     private static final String TAG = "ForumFragment";
 
     @BindView(R.id.wv_forum)
@@ -71,7 +70,7 @@ public class ForumFragment extends BaseFragment
     {
         mWvForum.getSettings().setJavaScriptEnabled(true);
         mWvForum.setWebViewClient(new WebViewClient());
-        mWvForum.loadUrl(Constants.FORUM_URL);
+        mWvForum.loadUrl(Constants.URL.FORUM_URL);
     }
 
 

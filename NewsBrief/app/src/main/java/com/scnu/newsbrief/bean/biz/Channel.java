@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.entity.homepage;
+package com.scnu.newsbrief.bean.biz;
 
 import java.io.Serializable;
 

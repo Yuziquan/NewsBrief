@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.entity.network;
+package com.scnu.newsbrief.bean.network.base;
 
 /**
  * Created by WuchangI on 2018/11/17.
@@ -7,7 +7,6 @@ package com.scnu.newsbrief.entity.network;
 /**
  * 所有响应数据的公共特征类
  */
-public class BaseResponseInfo
-{
+public class BaseResponseInfo {
 
 }

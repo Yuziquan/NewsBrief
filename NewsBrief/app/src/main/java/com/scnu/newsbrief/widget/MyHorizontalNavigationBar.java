@@ -3,7 +3,7 @@ package com.scnu.newsbrief.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import com.scnu.newsbrief.entity.homepage.Channel;
+import com.scnu.newsbrief.bean.biz.Channel;
 
 
 /**

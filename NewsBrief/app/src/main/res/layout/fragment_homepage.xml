@@ -8,13 +8,13 @@
     <View
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:background="@drawable/homepage_head_bg_gradient"/>
+            android:background="@color/colorPrimary"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="match_parent"
                   android:id="@+id/layout_home_pager_bar"
                   android:layout_height="?attr/actionBarSize"
-                  android:background="@drawable/homepage_head_bg_gradient"
+                  android:background="@color/colorPrimary"
                   android:gravity="center"
                   android:orientation="horizontal">
 

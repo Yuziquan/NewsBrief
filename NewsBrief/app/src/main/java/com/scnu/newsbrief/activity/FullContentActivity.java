@@ -8,12 +8,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.scnu.newsbrief.R;
 
-public class FullContentActivity extends AppCompatActivity
-{
+public class FullContentActivity extends AppCompatActivity {
 
     @BindView(R.id.tv_full_content)
     protected TextView mTvFullContent;
@@ -22,8 +23,7 @@ public class FullContentActivity extends AppCompatActivity
     protected Toolbar toolbar1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_content);
 
@@ -33,12 +33,10 @@ public class FullContentActivity extends AppCompatActivity
 
 
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null)
-        {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("新闻全文");
         }
-
 
 
         String content = getIntent().getStringExtra("content");
@@ -46,10 +44,8 @@ public class FullContentActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
 
                 // 返回上一个Activity
@@ -63,8 +59,7 @@ public class FullContentActivity extends AppCompatActivity
     }
 
 
-    public static void actionStart(Context context, String content)
-    {
+    public static void actionStart(Context context, String content) {
         Intent intent = new Intent(context, FullContentActivity.class);
         intent.putExtra("content", content);
         context.startActivity(intent);

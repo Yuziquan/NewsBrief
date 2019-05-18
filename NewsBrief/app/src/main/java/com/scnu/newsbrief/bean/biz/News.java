@@ -1,4 +1,4 @@
-package com.scnu.newsbrief.entity.homepage;
+package com.scnu.newsbrief.bean.biz;
 
 /**
  * Created by lw on 2017/4/14.

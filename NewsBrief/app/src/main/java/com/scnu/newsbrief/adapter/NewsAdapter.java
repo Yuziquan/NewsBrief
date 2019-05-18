@@ -9,12 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.scnu.newsbrief.R;
 import com.scnu.newsbrief.constant.Constants;
-import com.scnu.newsbrief.entity.homepage.News;
 import com.scnu.newsbrief.activity.FullContentActivity;
 import com.scnu.newsbrief.activity.NewsBriefActivity;
-import com.scnu.newsbrief.entity.network.NewsResponseInfo;
+import com.scnu.newsbrief.bean.network.NewsResponseInfo;
 
 import java.util.List;
 
@@ -24,20 +24,18 @@ import java.util.List;
  */
 
 
-public class NewsAdapter extends ArrayAdapter
-{
+public class NewsAdapter extends ArrayAdapter {
     private final int resourceId;
 
     private Context context;
 
-    private int categoryid=0;
+    private int categoryid = 0;
 
-    public void setCategoryid(int categoryid){
-        this.categoryid=categoryid;
+    public void setCategoryid(int categoryid) {
+        this.categoryid = categoryid;
     }
 
-    public NewsAdapter(Context context, int textViewResourceId, List<NewsResponseInfo.NewsContentsBean> objects)
-    {
+    public NewsAdapter(Context context, int textViewResourceId, List<NewsResponseInfo.NewsContentsBean> objects) {
 
         super(context, textViewResourceId, objects);
 
@@ -49,8 +47,7 @@ public class NewsAdapter extends ArrayAdapter
 
     @Override
 
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         NewsResponseInfo.NewsContentsBean news = (NewsResponseInfo.NewsContentsBean) getItem(position); // 获取当前项的Fruit实例
 
@@ -58,50 +55,44 @@ public class NewsAdapter extends ArrayAdapter
 
         ImageView SourceImage = (ImageView) view.findViewById(R.id.source_image);//获取该布局内的图片视图
 
-            Integer integer=Constants.newsfromimg.get(news.getNewFrom());
-            if (integer!=null){
-                SourceImage.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(),integer.intValue()));
-            }
-            else {
-                SourceImage.setImageResource(R.drawable.tengxun);
-            }
+        Integer integer = Constants.newsfromimg.get(news.getNewFrom());
+        if (integer != null) {
+            SourceImage.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(), integer.intValue()));
+        } else {
+            SourceImage.setImageResource(R.drawable.tengxun);
+        }
 
         TextView SourceName = (TextView) view.findViewById(R.id.source_name);//获取该布局内的文本视图
 
-        TextView news_time=(TextView) view.findViewById(R.id.news_time);
+        TextView news_time = (TextView) view.findViewById(R.id.news_time);
         news_time.setText(news.getTimes());
         TextView Newscontent = (TextView) view.findViewById(R.id.news_content);
 
 
-        Newscontent.setOnClickListener(new View.OnClickListener()
-        {
+        Newscontent.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                 FullContentActivity.actionStart(context,news.getUrl() );
+            public void onClick(View v) {
+                FullContentActivity.actionStart(context, news.getUrl());
             }
         });
 
         Button getdigest = (Button) view.findViewById(R.id.getdigest);
-       // SourceImage.setImageResource(news.get);//为图片视图设置图片资源
+        // SourceImage.setImageResource(news.get);//为图片视图设置图片资源
 
-        if (news.getTitle().length()>15)
-            SourceName.setText(news.getTitle().substring(0,15)+"...");//为文本视图设置文本内容
+        if (news.getTitle().length() > 15)
+            SourceName.setText(news.getTitle().substring(0, 15) + "...");//为文本视图设置文本内容
         else
             SourceName.setText(news.getTitle());//为文本视图设置文本内容
 
 
-
-        if (news.getContent().length()>100)
-        Newscontent.setText(news.getContent().substring(0,100)+"...");
+        if (news.getContent().length() > 100)
+            Newscontent.setText(news.getContent().substring(0, 100) + "...");
         else
             Newscontent.setText(news.getContent());
 
-        getdigest.setOnClickListener(new View.OnClickListener()
-        {
+        getdigest.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 NewsBriefActivity.actionStart(context, news.getContent());
             }
         });

@@ -19,17 +19,16 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.scnu.newsbrief.R;
-import com.scnu.newsbrief.entity.network.LoginResponseInfo;
-import com.scnu.newsbrief.entity.network.RegisterResponseInfo;
+import com.scnu.newsbrief.bean.network.LoginStatus;
 import com.scnu.newsbrief.network.SendMessageManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class LoginActivity extends AppCompatActivity
-{
+public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.et_user_name)
     protected EditText mEtUserName;
 
@@ -47,8 +46,7 @@ public class LoginActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -62,15 +60,12 @@ public class LoginActivity extends AppCompatActivity
     }
 
 
-
     /**
      * 初始化透明状态栏
      */
-    private void initTransparentStatusBar()
-    {
+    private void initTransparentStatusBar() {
         //实现透明状态栏效果
-        if (Build.VERSION.SDK_INT >= 21)
-        {
+        if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
 
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
@@ -81,36 +76,29 @@ public class LoginActivity extends AppCompatActivity
         }
 
 
-        if (getSupportActionBar() != null)
-        {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
     }
 
 
-
-    private void setListener()
-    {
-        mBtnEnter.setOnClickListener(new View.OnClickListener()
-        {
+    private void setListener() {
+        mBtnEnter.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
 
 
-                SendMessageManager.getInstance().getLoginStatus(mEtUserName.getText().toString(),mEtPassword.getText().toString());
+                SendMessageManager.getInstance().getLoginStatus(mEtUserName.getText().toString(), mEtPassword.getText().toString());
 
             }
         });
-        mFab.setOnClickListener(new View.OnClickListener()
-        {
+        mFab.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 getWindow().setExitTransition(null);
                 getWindow().setEnterTransition(null);
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this, mFab, mFab.getTransitionName());
@@ -120,23 +108,21 @@ public class LoginActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onRestart()
-    {
+    protected void onRestart() {
         super.onRestart();
         mFab.setVisibility(View.GONE);
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         mFab.setVisibility(View.VISIBLE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(LoginResponseInfo messageEvent) {
+    public void Event(LoginStatus messageEvent) {
         //Toast.makeText(this, messageEvent.getError(), Toast.LENGTH_SHORT).show();
-        if (messageEvent.getError().equals("true")){
+        if (messageEvent.getError().equals("true")) {
             Toast.makeText(this, "登录成功，欢迎！", Toast.LENGTH_SHORT).show();
 
             Explode explode = new Explode();
@@ -146,7 +132,7 @@ public class LoginActivity extends AppCompatActivity
             getWindow().setEnterTransition(explode);
             ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this);
 
-            Intent i2 = new Intent(LoginActivity.this, MainInterfaceActivity.class);
+            Intent i2 = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i2, oc2.toBundle());
         }
     }
@@ -154,7 +140,7 @@ public class LoginActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (EventBus.getDefault().isRegistered(this)){
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
     }

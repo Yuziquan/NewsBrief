@@ -8,12 +8,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.scnu.newsbrief.R;
 
-public class NewsBriefActivity extends AppCompatActivity
-{
+public class NewsBriefActivity extends AppCompatActivity {
 
     @BindView(R.id.tv_news_brief)
     protected TextView mTvNewsBrief;
@@ -23,8 +24,7 @@ public class NewsBriefActivity extends AppCompatActivity
     protected Toolbar toolbar2;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brief);
 
@@ -33,13 +33,10 @@ public class NewsBriefActivity extends AppCompatActivity
         setSupportActionBar(toolbar2);
 
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null)
-        {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("新闻摘要");
         }
-
-
 
 
         String brief = getIntent().getStringExtra("brief");
@@ -47,10 +44,8 @@ public class NewsBriefActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
 
                 // 返回上一个Activity
@@ -64,8 +59,7 @@ public class NewsBriefActivity extends AppCompatActivity
     }
 
 
-    public static void actionStart(Context context, String newsBrief)
-    {
+    public static void actionStart(Context context, String newsBrief) {
         Intent intent = new Intent(context, NewsBriefActivity.class);
 
         intent.putExtra("brief", newsBrief);

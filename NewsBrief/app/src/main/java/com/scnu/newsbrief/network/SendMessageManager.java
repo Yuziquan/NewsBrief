@@ -1,65 +1,47 @@
 package com.scnu.newsbrief.network;
 
 import com.scnu.newsbrief.constant.Constants;
-import com.scnu.newsbrief.entity.network.LoginResponseInfo;
-import com.scnu.newsbrief.entity.network.NewsResponseInfo;
-import com.scnu.newsbrief.entity.network.RegisterResponseInfo;
+import com.scnu.newsbrief.bean.network.LoginStatus;
+import com.scnu.newsbrief.bean.network.NewsResponseInfo;
+import com.scnu.newsbrief.bean.network.RegisterStatus;
+
 import io.reactivex.Observable;
 
 /**
  * Created by WuchangI on 2018/11/17.
  */
 
-public class SendMessageManager
-{
-    private static SendMessageManager sendMessageManager;
+public class SendMessageManager {
+    private static SendMessageManager sSendMessageManager;
 
-    private HttpChannel httpChannel;
+    private HttpChannel mHttpChannel;
 
-    private ApiService apiService;
+    private ApiService mApiService;
 
-    public static SendMessageManager getInstance()
-    {
-        return sendMessageManager == null ? sendMessageManager = new SendMessageManager() : sendMessageManager;
+    public static SendMessageManager getInstance() {
+        return sSendMessageManager == null ? sSendMessageManager = new SendMessageManager() : sSendMessageManager;
     }
 
-    private SendMessageManager()
-    {
-        httpChannel = HttpChannel.getInstance();
-        apiService = httpChannel.getApiService();
-    }
-
-    /**
-     * 发送“获取用户登录状态”的消息
-     * @param email
-     * @param password
-     */
-    public void getLoginStatus(String email, String password)
-    {
-        Observable<LoginResponseInfo> observable = apiService.getLoginStatus(email, password);
-        httpChannel.sendMessage(observable, Constants.GET_LOGIN_STATUS_URL);
+    private SendMessageManager() {
+        mHttpChannel = HttpChannel.getInstance();
+        mApiService = mHttpChannel.getApiService();
     }
 
 
-    /**
-     * 发送“获取用户注册状态”的消息
-     * @param username
-     * @param email
-     * @param password
-     */
-    public void getRegisterStatus(String username, String email, String password)
-    {
-        Observable<RegisterResponseInfo> observable = apiService.getRegisterStatus(username, email, password);
-        httpChannel.sendMessage(observable, Constants.GET_REGISTER_STATUS_URL);
+    public void getRegisterStatus(String username, String email, String password) {
+        Observable<RegisterStatus> observable = mApiService.getRegisterStatus(username, email, password);
+        mHttpChannel.sendMessage(observable, Constants.URL.GET_REGISTER_STATUS);
     }
 
-    /**
-     * 发送“获取新闻列表”的消息
-     */
-    public void getNews()
-    {
-        Observable<NewsResponseInfo> observable = apiService.getNews();
-        httpChannel.sendMessage(observable, Constants.GET_NEWS_URL);
+    public void getLoginStatus(String email, String password) {
+        Observable<LoginStatus> observable = mApiService.getLoginStatus(email, password);
+        mHttpChannel.sendMessage(observable, Constants.URL.GET_LOGIN_STATUS);
+    }
+
+
+    public void getNews() {
+        Observable<NewsResponseInfo> observable = mApiService.getNews();
+        mHttpChannel.sendMessage(observable, Constants.URL.GET_NEWS_CONTENT);
     }
 
 
