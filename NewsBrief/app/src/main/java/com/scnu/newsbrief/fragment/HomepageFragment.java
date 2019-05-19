@@ -1,6 +1,8 @@
 package com.scnu.newsbrief.fragment;
 
 import android.app.Activity;
+
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +11,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -18,15 +19,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.scnu.newsbrief.R;
 import com.scnu.newsbrief.adapter.NewsAdapter;
-import com.scnu.newsbrief.constant.Constants;
 import com.scnu.newsbrief.bean.biz.Channel;
-import com.scnu.newsbrief.activity.SearchPageActivity;
 import com.scnu.newsbrief.bean.network.NewsResponseInfo;
+import com.scnu.newsbrief.constant.Constants;
+import com.scnu.newsbrief.activity.SearchPageActivity;
+import com.scnu.newsbrief.network.SendMessageManager;
 import com.scnu.newsbrief.widget.HorizontalNavigationBar;
 import com.scnu.newsbrief.widget.MyHorizontalNavigationBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -50,7 +54,8 @@ import java.util.Vector;
 /**
  * “首页” 页面
  */
-public class HomepageFragment extends Fragment implements HorizontalNavigationBar.OnHorizontalNavigationSelectListener {
+public class HomepageFragment extends Fragment implements HorizontalNavigationBar.OnHorizontalNavigationSelectListener
+{
     //新闻分类水平滑动导航条
     private MyHorizontalNavigationBar mHorizontalNavigationBar;
     //顶部水平导航条新闻分类
@@ -73,38 +78,52 @@ public class HomepageFragment extends Fragment implements HorizontalNavigationBa
     private TextView edt_search;
     private ImageView addnewsclass;
     //记录的是所有新闻
-    List<NewsResponseInfo.NewsContentsBean> newsContents;
+    List<com.scnu.newsbrief.bean.network.NewsResponseInfo.NewsContentsBean> newsContents;
     //分好类的全部新闻
-    public static Vector<List<NewsResponseInfo.NewsContentsBean>> classifynewsContents = new Vector<>();
+    public static Vector<List<com.scnu.newsbrief.bean.network.NewsResponseInfo.NewsContentsBean>> classifynewsContents=new Vector<>();
     //显示的新闻，一个向量，每个元素是一个列表，每个列表都是一类新闻
-    Vector<List<NewsResponseInfo.NewsContentsBean>> newscontentsdisplay = new Vector<>();
+    Vector<List<com.scnu.newsbrief.bean.network.NewsResponseInfo.NewsContentsBean>> newscontentsdisplay=new Vector<>();
     //每一页的listview的适配器
-    private List<NewsAdapter> newsAdapters = new LinkedList<>();
+    private List<NewsAdapter> newsAdapters=new LinkedList<>();
 
+    private ProgressBar mProgressBar;
+    private View rootView;
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
-        View rootView = inflater.inflate(R.layout.fragment_homepage, container, false);
+        rootView = inflater.inflate(R.layout.fragment_homepage, container, false);
+        if (Constants.newsContents!=null){
+            newsContents=Constants.newsContents;
+            classifynewsContents=Constants.classifynewsContents;
+            newscontentsdisplay=Constants.newscontentsdisplay;
+        }
 
+        initView(rootView);
+        initpage();
+        initNews();
         return rootView;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
 
-        initView(view);
-        initpage();
-        initNews();
+
     }
 
+
     //初始化不同新闻类别的每一页
-    private void initpage() {
-        for (int i = 0; i < pagenum; i++) {
+    private void initpage()
+    {
+        mFragments.clear();
+        for (int i = 0; i < pagenum; i++)
+        {
             View view = getLayoutInflater().inflate(R.layout.content_page_homepage, null);
-            refreshLayout = view.findViewById(R.id.refresh_news);
+            refreshLayout=view.findViewById(R.id.refresh_news);
             refreshLayout.setOnRefreshListener(new OnRefreshListener() {
                 @Override
                 public void onRefresh(RefreshLayout refreshlayout) {
@@ -120,22 +139,40 @@ public class HomepageFragment extends Fragment implements HorizontalNavigationBa
                 }
             });
             mFragments.add(view);
-
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Constants.newsContents!=null){
+            newsContents=Constants.newsContents;
+            classifynewsContents=Constants.classifynewsContents;
+            newscontentsdisplay=Constants.newscontentsdisplay;
+        }
+        SendMessageManager.getInstance().getNews();
+        initView(rootView);
+        initpage();
+        initNews();
+    }
 
-    private void initView(View view) {
 
-        newsContents = new LinkedList<>();
+
+    private void initView(View view)
+    {
+
+        newsContents=new LinkedList<>();
         addnewsclass = (ImageView) view.findViewById(R.id.addnewclass);
         pagenum = newclass.length;
         //点击搜索事件
         edt_search = (TextView) view.findViewById(R.id.search);
-        edt_search.setOnClickListener(new View.OnClickListener() {
+        edt_search.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent intent = new Intent(getActivity().getApplicationContext(), SearchPageActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().getApplicationContext().startActivity(intent);
             }
         });
@@ -146,14 +183,14 @@ public class HomepageFragment extends Fragment implements HorizontalNavigationBa
         mHorizontalNavigationBar.addOnHorizontalNavigationSelectListener(this);
         mHorizontalNavigationBar.setCurrentChannelItem(0);
 //listview适配器
-        newscontentsdisplay = new Vector<>();
-        for (int i = 0; i < pagenum; i++) {
+        newscontentsdisplay=new Vector<>();
+        for (int i=0;i<pagenum;i++){
             classifynewsContents.add(new LinkedList<NewsResponseInfo.NewsContentsBean>());
             newscontentsdisplay.add(new LinkedList<NewsResponseInfo.NewsContentsBean>());
         }
         viewPager = (ViewPager) view.findViewById(R.id.contentpage);
         mFragments = new ArrayList<>();
-        refreshhandler = new Handler() {
+        refreshhandler=new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -161,14 +198,18 @@ public class HomepageFragment extends Fragment implements HorizontalNavigationBa
             }
         };
 
+        //代码中控制显隐藏
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
     }
 
     //返回顶部导航条新闻分类数据
-    private ArrayList<Channel> getData() {
+    private ArrayList<com.scnu.newsbrief.bean.biz.Channel> getData()
+    {
         final ArrayList<Channel> items = new ArrayList<>();
 
 
-        for (int i = 0; i < pagenum; i++) {
+        for (int i = 0; i < pagenum; i++)
+        {
             final Channel channel = new Channel();
             channel.setChannelName(newclass[i]);
 
@@ -180,107 +221,126 @@ public class HomepageFragment extends Fragment implements HorizontalNavigationBa
 
     //点击顶部新闻分类导航条
     @Override
-    public void select(int index) {
+    public void select(int index)
+    {
         Toast.makeText(getActivity().getApplicationContext(), "您点击的是: " + newclass[index], Toast.LENGTH_SHORT).show();
         viewPager.setCurrentItem(index);
 
     }
 
-    private void initNews() {
-        for (int i = 0; i < 6; i++) {
-            SharedPreferences share = getContext().getSharedPreferences("news" + i, Activity.MODE_PRIVATE);
-            NewsResponseInfo.NewsContentsBean temp = new NewsResponseInfo.NewsContentsBean();
-            temp.setTitle(share.getString("title", "暂无数据"));
-            temp.setContent(share.getString("content", "暂无数据"));
-            temp.setUrl(share.getString("url", "暂无数据"));
-            temp.setTimes(share.getString("time", "暂无数据"));
-            temp.setCategory(share.getString("category", "暂无数据"));
-            temp.setNewFrom(share.getString("newFrom", "暂无数据"));
-            for (int j = 0; j < pagenum; j++) {
+    private void initNews()
+    {
+        for (int i=0;i<6;i++){
+            SharedPreferences share=getContext().getSharedPreferences("news"+i, Activity.MODE_PRIVATE);
+            NewsResponseInfo.NewsContentsBean temp=new NewsResponseInfo.NewsContentsBean();
+            temp.setTitle(share.getString("title","暂无数据"));
+            temp.setContent(share.getString("content","暂无数据"));
+            temp.setUrl(share.getString("url","暂无数据"));
+            temp.setTimes(share.getString("time","暂无数据"));
+            temp.setCategory(share.getString("category","暂无数据"));
+            temp.setNewFrom(share.getString("newFrom","暂无数据"));
+            Log.i("缓存内容",share.getString("title","暂无数据"));
+            for (int j=0;j<pagenum;j++){
                 newscontentsdisplay.get(j).add(temp);
             }
-            //viewpageradapter.notifyDataSetChanged();
+
+        }
+        for (int i=0;i<pagenum;i++){
+            ListView listView = (ListView) mFragments.get(i).findViewById(R.id.list_view);
+            NewsAdapter newsAdapter=new NewsAdapter(this.getActivity(), R.layout.news_item_homepage, newscontentsdisplay.get(i));
+            newsAdapter.setCategoryid(i);
+            newsAdapters.add(newsAdapter);
+            listView.setAdapter(newsAdapter);
         }
 
-        viewpageradapter = new Myadapter();
+        //adapter.notify();
+        //viewpageradapter.notify();
+        viewpageradapter=new Myadapter();
         viewPager.setAdapter(viewpageradapter);
-
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewpageradapter.notifyDataSetChanged();
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
 
             }
 
             @Override
-            public void onPageSelected(int position) {
+            public void onPageSelected(int position)
+            {
                 mHorizontalNavigationBar.setCurrentChannelItem(position);
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageScrollStateChanged(int state)
+            {
 
             }
         });
-
+        //代码中控制显隐藏
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(NewsResponseInfo messageEvent) {
         //Toast.makeText(this, messageEvent.getError(), Toast.LENGTH_SHORT).show();
-        if (messageEvent.getCode().equals("0")) {
+        //代码中控制显隐藏
+        mProgressBar.setVisibility(View.GONE);
+        if (messageEvent.getCode().equals("0")){
             //Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (Constants.newsContents != null) {
-            newsContents = Constants.newsContents;
-            classifynewsContents = Constants.classifynewsContents;
-            newscontentsdisplay = Constants.newscontentsdisplay;
+        if (Constants.newsContents!=null){
+            newsContents=Constants.newsContents;
+            classifynewsContents=Constants.classifynewsContents;
+            newscontentsdisplay=Constants.newscontentsdisplay;
             viewpageradapter.notify();
             return;
         }
 
 
-        newsContents = messageEvent.getNewsContents();
-        for (int i = 0; i < 6; i++) {
-            SharedPreferences sharedPreferences = getContext().getSharedPreferences("news" + i, Context.MODE_PRIVATE); //私有数据
-            NewsResponseInfo.NewsContentsBean temp = newsContents.get(i);
+        newsContents=messageEvent.getNewsContents();
+        for (int i=0;i<6;i++){
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("news"+i, Context.MODE_PRIVATE); //私有数据
+            NewsResponseInfo.NewsContentsBean temp=newsContents.get(i);
             SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
-            editor.putString("title", temp.getTitle());
+            editor.putString("title",temp.getTitle());
             editor.putString("content", temp.getContent());
             editor.putString("url", temp.getUrl());
             editor.putString("time", temp.getTimes());
             editor.putString("category", temp.getCategory());
-            editor.putString("newFrom", temp.getNewFrom());
+            editor.putString("newFrom",temp.getNewFrom());
             editor.commit();//提交修改
         }
 
-        for (int i = 0; i < newsContents.size(); i++) {
-            String category = newsContents.get(i).getCategory();
-            int j = 0;
-            for (; j < pagenum; j++) {
-                if (category.equals(newclass[j])) {
+        for (int i=0;i<newsContents.size();i++){
+            String category=newsContents.get(i).getCategory();
+            int j=0;
+            for (;j<pagenum;j++){
+                if (category.equals(newclass[j])){
                     classifynewsContents.get(j).add(newsContents.get(i));
                     break;
                 }
             }
-            if (j == pagenum) {
-                classifynewsContents.get(pagenum - 1).add(newsContents.get(i));
+            if (j==pagenum){
+                classifynewsContents.get(pagenum-1).add(newsContents.get(i));
             }
 
         }
-        for (int i = 0; i < pagenum; i++) {
+        for (int i=0;i<pagenum;i++){
             newscontentsdisplay.get(i).clear();
-            for (int j = 0; j < 6; j++) {
-                NewsResponseInfo.NewsContentsBean temp = classifynewsContents.get(i).get(j);
+            for (int j=0;j<6;j++){
+                NewsResponseInfo.NewsContentsBean temp=classifynewsContents.get(i).get(j);
                 //classifynewsContents.get(i).add(temp);
                 newscontentsdisplay.get(i).add(temp);
             }
         }
 
 
-        for (int i = 0; i < pagenum; i++) {
+        for (int i=0;i<pagenum;i++){
             ListView listView = (ListView) mFragments.get(i).findViewById(R.id.list_view);
-            NewsAdapter newsAdapter = new NewsAdapter(this.getActivity(), R.layout.news_item_homepage, newscontentsdisplay.get(i));
+            NewsAdapter newsAdapter=new NewsAdapter(this.getActivity(), R.layout.news_item_homepage, newscontentsdisplay.get(i));
             newsAdapter.setCategoryid(i);
             newsAdapters.add(newsAdapter);
             listView.setAdapter(newsAdapter);
@@ -289,33 +349,36 @@ public class HomepageFragment extends Fragment implements HorizontalNavigationBa
         //adapter.notify();
         viewpageradapter.notify();
 
-        Constants.newsContents = newsContents;
-        Constants.classifynewsContents = classifynewsContents;
-        Constants.newscontentsdisplay = newscontentsdisplay;
+        Constants.newsContents=newsContents;
+        Constants.classifynewsContents=classifynewsContents;
+        Constants.newscontentsdisplay=newscontentsdisplay;
+
     }
 
+
+
     //下拉刷新
-    private void pudownrefresh() {
-        if (newsContents.size() == 0) return;
-        for (int n = 0; n < pagenum; n++) {
+    public void pudownrefresh() {
+        if (newsContents.size()==0)return;
+        for (int n=0;n<pagenum;n++) {
             newscontentsdisplay.get(n).clear();
             for (int j = 0; j < 6; j++) {
-                int no = (int) (Math.random() * classifynewsContents.get(n).size() - 1);
+                int no=(int) (Math.random()*classifynewsContents.get(n).size()-1);
                 NewsResponseInfo.NewsContentsBean temp = classifynewsContents.get(n).get(no);
                 //classifynewsContents.get(n).add(temp);
                 newscontentsdisplay.get(n).add(temp);
             }
         }
-        Log.d("", "有刷新");
+        Log.d("","有刷新");
         //Constants.classifynewsContents=classifynewsContents;
         viewpageradapter.notifyDataSetChanged();
     }
-
     //上拉加载更多
     private void loadmorenews() {
-        if (newsContents.size() == 0) return;
-        for (int n = 0; n < pagenum; n++) {
-            for (int j = newscontentsdisplay.size(); j < newscontentsdisplay.size() + 6; j++) {
+        if (newsContents.size()==0)return;
+        for (int n=0;n<pagenum;n++) {
+            for (int j = newscontentsdisplay.size(); j <newscontentsdisplay.size()+ 6; j++) {
+                if(j>=classifynewsContents.get(n).size())break;
                 NewsResponseInfo.NewsContentsBean temp = classifynewsContents.get(n).get(j);
                 newscontentsdisplay.get(n).add(temp);
             }
@@ -325,9 +388,11 @@ public class HomepageFragment extends Fragment implements HorizontalNavigationBa
 
 
     //viewpage适配器，mFragments
-    private class Myadapter extends PagerAdapter {
+    private class Myadapter extends PagerAdapter
+    {
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, int position)
+        {
             View v = mFragments.get(position);
 
             container.addView(v);
@@ -335,18 +400,21 @@ public class HomepageFragment extends Fragment implements HorizontalNavigationBa
         }
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
+        public void destroyItem(ViewGroup container, int position, Object object)
+        {
             View v = mFragments.get(position);
             container.removeView(v);
         }
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return mFragments.size();
         }
 
         @Override
-        public boolean isViewFromObject(View view, Object object) {
+        public boolean isViewFromObject(View view, Object object)
+        {
             return view == object;//官方也是这样写的
         }
     }

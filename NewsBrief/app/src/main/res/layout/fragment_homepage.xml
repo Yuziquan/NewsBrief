@@ -58,6 +58,11 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#d0d0d0"/>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbar"
+        android:layout_gravity="center_horizontal"/>
     <android.support.v4.view.ViewPager
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -9,8 +9,8 @@
        android:layout_height="wrap_content"
        android:orientation="horizontal">
        <com.scnu.newsbrief.widget.RoundImageView
-           android:layout_width="33dp"
-           android:layout_height="35dp"
+           android:layout_width="30dp"
+           android:layout_height="30dp"
            android:src="@drawable/sina"
            android:layout_weight="1"
            android:scaleType="fitXY"
@@ -25,13 +25,15 @@
            android:textColor="@android:color/black"
            android:layout_marginLeft="10dip"
            android:text="新闻标题"/>
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="2018/12/3"
-           android:layout_gravity="bottom"
-           android:id="@+id/news_time"/>
+
    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2018/12/3"
+        android:layout_marginLeft="38dp"
+        android:layout_gravity="bottom"
+        android:id="@+id/news_time"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,6 +51,7 @@
         android:layout_height="30dp"
         android:background="@drawable/style_getdigest_btn"
         android:text="点我查看摘要"
+        android:textColor="@color/white"
         android:layout_gravity="right"
         android:id="@+id/getdigest"/>
 </LinearLayout>
