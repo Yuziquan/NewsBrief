@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar2"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
-
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_margin="20dp"
-              android:textSize="25sp"
-              android:textColor="@android:color/black"
-              android:text="新闻摘要:"/>
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
     <TextView
-            android:id="@+id/tv_news_brief"
-            android:text=""
-            android:layout_margin="20dp"
-            android:background="#11111111"
-            android:textSize="20sp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="摘要"
+        android:textColor="@color/colorPrimary"
+        android:textSize="35sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_news_brief"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="15dp"
+        android:background="@drawable/brief_content_shape"
+        android:text="央视网消息\n
+    近日国内军事杂志曝光了一张国产新型特种照片，实际应用该机主要负责敌方纵深地区进行电子侦察，同时配合我方突击机群实施电子压制，干扰瘫痪敌方空防系统，我军遂进行空中进攻。"
+        android:textColor="#444444"
+        android:textSize="22sp" />
 
 </LinearLayout>

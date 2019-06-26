@@ -17,9 +17,6 @@ import com.scnu.newsbrief.R;
 
 public class FullContentActivity extends AppCompatActivity
 {
-
-
-
     @BindView(R.id.toolbar1)
     protected Toolbar toolbar1;
 

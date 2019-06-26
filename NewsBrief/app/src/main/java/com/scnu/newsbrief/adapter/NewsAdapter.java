@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scnu.newsbrief.R;
+import com.scnu.newsbrief.activity.BriefActivity;
 import com.scnu.newsbrief.constant.Constants;
 import com.scnu.newsbrief.activity.FullContentActivity;
-import com.scnu.newsbrief.activity.NewsBriefActivity;
 import com.scnu.newsbrief.bean.network.NewsResponseInfo;
 
 import java.util.List;
@@ -93,7 +93,7 @@ public class NewsAdapter extends ArrayAdapter {
         getdigest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewsBriefActivity.actionStart(context, news.getContent());
+                BriefActivity.actionStart(context, news.getContent());
             }
         });
 

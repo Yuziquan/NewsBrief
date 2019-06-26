@@ -7,17 +7,18 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="24dp"
-        android:background="@drawable/forum_head_bg_gradient"/>
+        android:background="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/tv_forum"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_weight="1"
-        android:background="@drawable/forum_head_bg_gradient"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="畅聊天下事"
-        android:textSize="35dp"
+        android:textColor="@color/white"
+        android:textSize="28sp"
         android:textStyle="bold" />
 
     <WebView

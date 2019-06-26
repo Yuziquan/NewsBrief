@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
 import com.scnu.newsbrief.R;
 
 import java.util.ArrayList;
@@ -46,24 +48,19 @@ public class MessageFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_message, container, false);
 
         mUnbinder = ButterKnife.bind(this, rootView);
 
-        try
-        {
+        try {
             mTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/font1.ttf");
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.i(TAG, "加载第三方字体失败。");
             mTypeface = null;
         }
 
-        if (mTypeface != null)
-        {
+        if (mTypeface != null) {
             mTvMessage.setTypeface(mTypeface);
         }
 
@@ -73,8 +70,7 @@ public class MessageFragment extends Fragment {
     }
 
 
-    private void initView()
-    {
+    private void initView() {
         int[] imageIdList = new int[]{R.drawable.message_item_broadcast, R.drawable.message_item_hotspot, R.drawable.message_item_like};
 
         String[] titleList = new String[]{"系统通知", "热点话题", "我关注的"};
@@ -87,8 +83,7 @@ public class MessageFragment extends Fragment {
 
         List<Map<String, Object>> messageItemsList = new ArrayList<Map<String, Object>>();
 
-        for (int i = 0; i < imageIdList.length; i++)
-        {
+        for (int i = 0; i < imageIdList.length; i++) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("image", imageIdList[i]);
             map.put("title", titleList[i]);
@@ -106,8 +101,7 @@ public class MessageFragment extends Fragment {
 
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
     }

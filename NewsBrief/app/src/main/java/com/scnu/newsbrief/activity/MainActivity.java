@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
-        mBottomNavigationBar.setActiveColor(R.color.home_pager_bar_color);
+        mBottomNavigationBar.setActiveColor(R.color.colorPrimary);
 
         TextBadgeItem messageBadgeItem = new TextBadgeItem().setBorderWidth(4).setAnimationDuration(200).setBackgroundColor(Color.RED).setText("3").setHideOnSelect(true);
 

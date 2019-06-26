@@ -13,7 +13,6 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
-
         </activity>
         <activity android:name=".activity.SearchPageActivity"/>
         <activity android:name=".activity.LoginActivity">
@@ -26,7 +25,7 @@
         <activity android:name=".activity.RegisterActivity"
                   android:theme="@style/Translucent">
         </activity>
-        <activity android:name=".activity.NewsBriefActivity">
+        <activity android:name=".activity.BriefActivity">
         </activity>
         <activity android:name=".activity.FullContentActivity">
         </activity>

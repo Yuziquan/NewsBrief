@@ -1,57 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="horizontal">
-       <com.scnu.newsbrief.widget.RoundImageView
-           android:layout_width="30dp"
-           android:layout_height="30dp"
-           android:src="@drawable/sina"
-           android:layout_weight="1"
-           android:scaleType="fitXY"
-           app:type="circle"
-           android:id="@+id/source_image"/>
-       <TextView
-           android:id="@+id/source_name"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="center"
-           android:textStyle="bold"
-           android:textColor="@android:color/black"
-           android:layout_marginLeft="10dip"
-           android:text="新闻标题"/>
+    android:orientation="vertical"
+    android:padding="5dp">
 
-   </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2018/12/3"
-        android:layout_marginLeft="38dp"
-        android:layout_gravity="bottom"
-        android:id="@+id/news_time"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <com.scnu.newsbrief.widget.RoundImageView
+            android:id="@+id/source_image"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:src="@drawable/sina"
+            app:type="circle" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:id="@+id/source_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="新闻标题"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/news_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018-12-3"
+                android:textSize="12sp"
+                android:layout_gravity="left"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
         <TextView
             android:id="@+id/news_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dip"
-            android:text="习近平向“一带一路”国际......"/>
+            android:text="习近平向“一带一路”国际......" />
     </LinearLayout>
+
     <Button
+        android:id="@+id/getdigest"
         android:layout_width="100dp"
         android:layout_height="30dp"
+        android:layout_gravity="right"
         android:background="@drawable/style_getdigest_btn"
         android:text="点我查看摘要"
-        android:textColor="@color/white"
-        android:layout_gravity="right"
-        android:id="@+id/getdigest"/>
+        android:textColor="@color/white"/>
 </LinearLayout>

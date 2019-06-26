@@ -7,7 +7,7 @@
     <View
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:background="@drawable/message_head_bg_gradient"/>
+            android:background="@color/colorPrimary"/>
 
     <TextView
             android:id="@+id/tv_message"
@@ -15,11 +15,10 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:background="@drawable/message_head_bg_gradient"
-
-            android:textSize="35dp"
-            android:textStyle="bold"
-            android:text="消息提醒"/>
+            android:background="@color/colorPrimary"
+            android:textSize="28sp"
+            android:text="系统消息"
+            android:textColor="@color/white"/>
 
     <ListView
             android:id="@+id/lv_message"
