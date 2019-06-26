@@ -6,7 +6,7 @@
 
 An app that helps you quickly browse news and information~~
 
-<img src="./Screenshots/app_icon.png" width=50 height=50 />
+![NewsBrief](./Screenshots/app_icon.png)
 
 
 
